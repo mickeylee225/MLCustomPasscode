@@ -29,6 +29,7 @@
 @property (strong, nonatomic) IBOutletCollection(NSLayoutConstraint) NSArray *buttonTopConstraint;
 
 @property (nonatomic, weak) id<TouchIDButtonDelegate> delegate;
+@property (nonatomic,assign) NSUInteger passcodeStatus;
 
 + (CustomNumberPad *)defaultNumberpad;
 

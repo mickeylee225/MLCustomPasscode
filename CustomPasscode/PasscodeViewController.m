@@ -22,6 +22,8 @@
 
 @implementation PasscodeViewController
 {
+    UIView *bgView;
+    CAGradientLayer *bgGradientLayer;
     NSString *titleString;
     NSString *subtitleString;
     UIView *emptyView;
@@ -80,14 +82,16 @@
 # pragma mark - ViewController Cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    CAGradientLayer *bgGradientLayer = [CAGradientLayer layer];
-    bgGradientLayer.frame = self.view.bounds;
+    bgView = [[UIView alloc] initWithFrame:self.view.bounds];
+    bgGradientLayer = [CAGradientLayer layer];
+    bgGradientLayer.frame = bgView.frame;
     bgGradientLayer.startPoint = CGPointMake(0.5, 0.0);
     bgGradientLayer.endPoint = CGPointMake(0.5, 1.0);
     bgGradientLayer.colors = @[(__bridge id)[UIColor colorWithRed:194.0/255.0 green:229.0/255.0 blue:156.0/255.0 alpha:1.0].CGColor,
                                (__bridge id)[UIColor colorWithRed:4.0/255.0 green:185.0/255.0 blue:223.0/255.0 alpha:1.0].CGColor,
                                (__bridge id)[UIColor colorWithRed:58.0/255.0 green:123.0/255.0 blue:213.0/255.0 alpha:1.0].CGColor];
-    [self.view.layer addSublayer:bgGradientLayer];
+    [bgView.layer addSublayer:bgGradientLayer];
+    [self.view addSubview:bgView];
 
     _digitTextFieldsArray = [NSMutableArray new];
 
@@ -99,7 +103,13 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [CustomNumberPad defaultNumberpad].passcodeStatus = _passcodeStatus;
     [_passcodeTextField becomeFirstResponder];
+}
+
+- (void)viewWillLayoutSubviews {
+    bgView.frame = self.view.frame;
+    bgGradientLayer.frame = bgView.frame;
 }
 
 - (void)viewDidUnload {

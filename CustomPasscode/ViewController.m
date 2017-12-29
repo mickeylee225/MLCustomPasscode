@@ -256,6 +256,8 @@ enum MORE_MENU_LIST {
             NSIndexPath *indexPath = [NSIndexPath indexPathForRow:updateRow2 inSection:0];
             [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
         }
+        _isEnablePasscodeTouchID = NO;
+        [SFHFKeychainUtils storeUsername:@"keychainAllowBio" andPassword:[NSString stringWithFormat:@"%d", _isEnablePasscodeTouchID] forServiceName:@"keychainService" updateExisting:YES error:nil];
         PasscodeViewController *vc = [[PasscodeViewController alloc] init];
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
         vc.passcodeStatus = PASSCODE_DISABLE;
@@ -268,7 +270,7 @@ enum MORE_MENU_LIST {
     PasscodeViewController *vc = [[PasscodeViewController alloc] init];
     vc.isUsingBiometrics = _isEnablePasscodeTouchID;
 
-    [SFHFKeychainUtils storeUsername:@"keychainAllowBio" andPassword:[NSString stringWithFormat: @"%d", _isEnablePasscodeTouchID] forServiceName:@"keychainService" updateExisting:YES error:nil];
+    [SFHFKeychainUtils storeUsername:@"keychainAllowBio" andPassword:[NSString stringWithFormat:@"%d", _isEnablePasscodeTouchID] forServiceName:@"keychainService" updateExisting:YES error:nil];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -51,7 +51,7 @@
     return self;
 }
 
-- (void)layoutSubviews {
+- (void)willMoveToSuperview:(UIView *)newSuperview {
     [self initButtons];
 
     [_deleteButton setTitle:@"C" forState:UIControlStateNormal];
@@ -65,7 +65,7 @@
     [_touchIDButton setImage:[UIImage imageNamed:@"touchId.png"] forState:UIControlStateNormal];
     [_touchIDButton setTitle:@"" forState:UIControlStateNormal];
     [_touchIDButton bringSubviewToFront:_touchIDButton.imageView];
-    _touchIDButton.hidden = ![PasscodeViewController doesTouchIDEnabled] | ![PasscodeViewController allowUnlockWithBiometrics];
+    _touchIDButton.hidden = (_passcodeStatus == PASSCODE_CHANGE) || (_passcodeStatus == PASSCODE_DISABLE) || (_passcodeStatus == PASSCODE_ENABLE) || (![PasscodeViewController doesTouchIDEnabled] | ![PasscodeViewController allowUnlockWithBiometrics]);
 }
 
 - (void)initButtons {
