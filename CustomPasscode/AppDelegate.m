@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "ViewController.h"
 #import "PasscodeViewController.h"
+#import "SFHFKeychainUtils.h"
 
 @interface AppDelegate ()
 
@@ -18,6 +19,14 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"FirstRun"]) {
+        // Delete values when just installed app from keychain here
+        [[NSUserDefaults standardUserDefaults] setValue:@"1strun" forKey:@"FirstRun"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        [SFHFKeychainUtils deleteItemForUsername:@"keychainPasscode" andServiceName:@"keychainService" error:nil];
+        [SFHFKeychainUtils storeUsername:@"keychainAllowBio" andPassword:0 forServiceName:@"keychainService" updateExisting:YES error:nil];
+    }
+
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     ViewController *vc = [[ViewController alloc] init];
     self.navController = [[UINavigationController alloc] initWithRootViewController:vc];
